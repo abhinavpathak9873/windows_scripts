@@ -1,34 +1,16 @@
 #Requires AutoHotkey v2.0
-
 ; Auto-elevate to admin if not already
 if !A_IsAdmin {
     Run '*RunAs "' A_AhkPath '" "' A_ScriptFullPath '"'
     ExitApp
 }
-
 hVirtualDesktopAccessor := DllCall("LoadLibrary", "Str", A_ScriptDir "\VirtualDesktopAccessor.dll", "Ptr")
 GoToDesktopNumberProc         := DllCall("GetProcAddress", "Ptr", hVirtualDesktopAccessor, "AStr", "GoToDesktopNumber", "Ptr")
 MoveWindowToDesktopNumberProc := DllCall("GetProcAddress", "Ptr", hVirtualDesktopAccessor, "AStr", "MoveWindowToDesktopNumber", "Ptr")
 GetWindowDesktopNumberProc    := DllCall("GetProcAddress", "Ptr", hVirtualDesktopAccessor, "AStr", "GetWindowDesktopNumber", "Ptr")
 
-; Track windows we've already centered so minimize/restore doesn't re-center them
-centeredWindows := Map()
-
-; Hook into window show events to auto-center new windows
-WinEventProc := CallbackCreate(CenterNewWindow, "F", 7)
-hHook := DllCall("SetWinEventHook"
-    , "UInt", 0x8002   ; EVENT_OBJECT_SHOW
-    , "UInt", 0x8002
-    , "Ptr",  0
-    , "Ptr",  WinEventProc
-    , "UInt", 0
-    , "UInt", 0
-    , "UInt", 0
-    , "Ptr")
-
-; Clean up hook on exit
-OnExit((*) => DllCall("UnhookWinEvent", "Ptr", hHook))
 ^!t:: Run "wt.exe"
+
 ; Switch to desktop
 !1:: SwitchDesktop(0)
 !2:: SwitchDesktop(1)
@@ -93,8 +75,3 @@ FocusTopmostOnDesktop(num) {
     ; No windows on this desktop — focus the desktop itself
     WinActivate("ahk_class Progman")
 }
-
-
-
-
-
