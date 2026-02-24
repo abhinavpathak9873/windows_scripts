@@ -28,7 +28,7 @@ hHook := DllCall("SetWinEventHook"
 
 ; Clean up hook on exit
 OnExit((*) => DllCall("UnhookWinEvent", "Ptr", hHook))
-#!t:: Run "wt.exe"
+^!t:: Run "wt.exe"
 ; Switch to desktop
 !1:: SwitchDesktop(0)
 !2:: SwitchDesktop(1)
@@ -122,4 +122,5 @@ CenterNewWindow(hWinEventHook, event, hwnd, idObject, idChild, dwEventThread, dw
         WinMove(newX, newY,,, "ahk_id " hwnd)
     }
 }
+
 
