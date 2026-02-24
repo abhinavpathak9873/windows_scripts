@@ -94,33 +94,7 @@ FocusTopmostOnDesktop(num) {
     WinActivate("ahk_class Progman")
 }
 
-CenterNewWindow(hWinEventHook, event, hwnd, idObject, idChild, dwEventThread, dwmsEventTime) {
-    if idObject != 0 || idChild != 0
-        return
-    if centeredWindows.Has(hwnd)
-        return
-    centeredWindows[hwnd] := true
 
-    Sleep(50)
 
-    try {
-        if !(WinGetStyle("ahk_id " hwnd) & 0x10000000)
-            return
-        if WinGetMinMax("ahk_id " hwnd) != 0
-            return
-        if WinGetTitle("ahk_id " hwnd) = ""
-            return
-
-        MonitorGetWorkArea(1, &left, &top, &right, &bottom)
-        WinGetPos(&x, &y, &w, &h, "ahk_id " hwnd)
-
-        if w < 10 || h < 10
-            return
-
-        newX := left + (right - left - w) // 2
-        newY := top + (bottom - top - h) // 2
-        WinMove(newX, newY,,, "ahk_id " hwnd)
-    }
-}
 
 
