@@ -34,6 +34,6 @@ An AutoHotkey v2 script for managing Windows virtual desktops with keyboard shor
 ## Notes
 
 - Desktops are zero-indexed internally (desktop 1 = index 0), but the hotkeys map intuitively: `Alt+1` goes to the first desktop, `Alt+2` to the second, and so on.
-- The script uses a 150ms delay after switching desktops to allow Windows to settle before setting focus. If focus is still inconsistent on your machine, try increasing the `Sleep` values in `SwitchDesktop` and `MoveAndSwitch`.
+- The script uses a 10ms delay after switching desktops to allow Windows to settle before setting focus. If focus is still inconsistent on your machine, try increasing the `Sleep` values in `SwitchDesktop` and `MoveAndSwitch`.
 - Auto-centering skips minimized, maximized, and untitled system windows. Windows are only centered once — minimizing and restoring will not re-center them.
 - The script hooks into system-wide window events, which is why admin privileges are required for it to work correctly across all applications.
